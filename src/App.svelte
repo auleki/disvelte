@@ -1,59 +1,41 @@
 <script>
-	let topic = "Svelte Tutorial"
-	let name = "Ade";
-	let car = "Benz";
-	let color = "red";
-	let bgColor = "indigo"
-	let reaction = "😐"
+	//ANCHOR add extra fields like year they got blown, known associates and all that
+	let icons = [
+		{ id: 1, fullName: "David Adeleke", alias: "Davido", careerPath: "Musical Artist", country: "Nigeria", age: 28},
+		{ id: 2, fullName: "Ayo Balogun", alias: "Wizkid", careerPath: "Musical Artist", country: "Nigeria", age: 28},
+		{ id: 3, fullName: "Chike Ejiofor", alias: "Eji", careerPath: "Actor", country: "Nigeria", age: 35},
+		{ id: 4, fullName: "Casper Nyovest", alias: "Casper da Ghost", careerPath: "Musical Artist", country: "South Africa", age: 38 },
+		{ id: 5, fullName: "Bright Okpocha", alias: "Basket Mouth", careerPath: "Comedian", country: "Nigeria", age: 40},
+		{ id: 6, fullName: "Bukola Elemide", alias: "ASA", careerPath: "Musical Artist", country: "Nigeria", age: 38},
+	]
 
-	let firstName = "John";
-	let lastName = "Doe";
-	const changeCar = (carBrand) => {
-		car = carBrand;
-	}
+	/*TODO 
+	Create a resuable subscription function 
+	which needs only the email to get to work 
+	- can take on user object later
+	*/
 
-	//ANCHOR Reactive values 
-
-	$:fullName = `${firstName} ${lastName}`;
-
-	const takeInput = ({ target }) => {
-		car = target.value
+	const handleClick = (event, id) => {
+		icons = icons.filter(icon => icon.id !== id)
+		console.log(event)
 	}
 </script>
 
 <main>
-	<h1>{topic}</h1>
-	<h4>{fullName} owns a {car}</h4>
-	<h4>REACTION is {reaction}</h4>
-	<!-- <h4 style="color: {color}">
-		{color}
-	</h4> -->
-	<div class="input_group">
-		<label for="">First Name</label>
-		<input type="text" bind:value={firstName} >
-	</div>
-	<div class="input_group">
-		<label for="">Last Name</label>
-		<input type="text" bind:value={lastName} >
-	</div>
-	<div class="input_group">
-		<label for="">Car Brand</label>
-		<input type="text" bind:value={car} >
-	</div>
 	
-	<div class="input_group">
-		<label for="">Reaction</label>
-		<input type="text" bind:value={reaction} >
-	</div>
-	<!-- <button on:click={() => changeCar(car)}>
-		change car
-	</button> -->
-	<!-- <div class="box" style="background-color: {bgColor}"></div> -->
-	<!-- <input type="text" placeholder="color" bind:value={color}>
-	<input type="text" placeholder="color" bind:value={bgColor}> -->
-
-	<!-- <input type="text" on:input={takeInput} value={car}> -->
-
+	{#each icons as icon (icon.id)}
+		<div class="icons">
+			<h1>{icon.fullName}</h1>
+			<p>Alias of {icon.alias} is {icon.age}</p>
+			<p>Career Path: {icon.careerPath}</p>
+			<p>Is from {icon.country}</p>
+			<button on:click={(e) => handleClick(e, icon.id)}>
+				Delete
+			</button>
+		</div>
+	{:else}
+		<p>Loading Icons...</p>
+	{/each}
 </main>
 
 <style>
@@ -69,26 +51,13 @@
 		margin: 0 auto;
 	}
 
-	.box {
-		height: 10em;
-		width: 10em;		
+	.icons {
+		/* text-align: left; */
 	}
-
-	.input_group {
-		display: flex;
-		flex-direction: column;
-	}
-
-	.input_group input {
-		border: none;
-		border-bottom: 2px solid springgreen;
-		outline: 0;
-	}
-
 	h1 {
 		color: #ff3e00;
-		/* text-transform: uppercase; */
-		font-size: 4em;
+		text-transform: uppercase;
+		font-size: 1.5em;
 		font-weight: 100;
 	}
 
